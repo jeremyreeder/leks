@@ -7,6 +7,6 @@ complex to exist in a dictionary, Leks will break it down into its various
 parts (separating them with hyphens) and (coming soon) explain the meaning of
 each. All standard prefixes, suffixes, and grammatical word endings (excluding
 verb conjugations) are currently supported.  Compound roots are not yet
-separable.  The breakdown given by Leks is based on just one plausible
+separable.  The breakdown given by Leks is for just one plausible
 interpretation, the first one that Leks found. In cases of ambiguity, such as
 "ek-sendo" vs "eks-endo", the future intention is to list each possibility.
