@@ -1,0 +1,44 @@
+#!/usr/bin/env python3
+from sys import argv
+import re
+
+suffixes=['acx','ad','ajx','an','ar','cxjo','ebl','ec','eg','ej','em','end','er','estr','et','icx','id','ig','igx','il','in','ind','ing','ism','ist','njo','obl','on','op','uj','ul','um','is','as','os','us','int','ant','ont','unt','it','at','ot','ut','iu','tiu','cxiu','ia','tia','cxia']
+prepositions=['pri','super','trans','post','kontraux','inter','cxirkaux','kiel','cxe','antaux','post','sub','apud','preter','de','per','apud','dum','krom','por','pro','el','en','sekva','sur','po','plus','cxirkaux','ekde','ol','tra','gxis','al','kun','laux','for','anstataux','ekster','pre']
+conjunctions=['kaj','sed','nek','aux']
+prefixes=['bo','dis','eks','ek','fi','ge','mal','mis','pra','re']+prepositions+conjunctions
+endings=dict()
+endings['o']='substantivo'
+endings['a']='adjektivo'
+endings['e']='adverbo'
+endings['i']='verbo'
+endings['j']='multenombro'
+endings['n']='akuzativo'
+known_words=suffixes+prefixes
+
+def hyphenate_unended(word):
+	if len(word)>1 and word not in known_words:
+		for suffix in suffixes:
+			if word.endswith(suffix):
+				return hyphenate_unended(word[:-len(suffix)])+'-'+suffix
+		for prefix in prefixes+prepositions:
+			if word.startswith(prefix):
+				return prefix+'-'+hyphenate_unended(word[len(prefix):])
+	return word
+
+def hyphenate(word):
+	if word[-1] in ['n','j']:
+		return hyphenate(word[:-1])+word[-1]
+	if word[-1] in ['o','a','e','i']:
+		return hyphenate_unended(word[:-1])+word[-1]
+	return hyphenate_unended(word)
+
+def explain(hyphenated_word):
+	result=''
+	for part in hyphenated_word.split('-'):
+		result+=part+'\n'
+	return result
+
+for word in argv[1:]:
+	hyphenated_word=hyphenate(word)
+	print(hyphenated_word)
+	print(explain(hyphenated_word))
