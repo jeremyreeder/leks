@@ -21,18 +21,22 @@ def hyphenate_unended(word):
 	if len(word)>1 and word not in known_words:
 		for suffix in suffixes+roots:
 			if word.endswith(suffix):
-				return hyphenate_unended(word[:-len(suffix)])+'-'+suffix
-		for prefix in prefixes+prepositions:
+				for unended_word in hyphenate_unended(word[:-len(suffix)]):
+					yield unended_word+'-'+suffix
+		for prefix in prefixes+prepositions+roots:
 			if word.startswith(prefix):
-				return prefix+'-'+hyphenate_unended(word[len(prefix):])
-	return word
+				for unprefixed_word in hyphenate_unended(word[len(prefix):]):
+					yield prefix+'-'+unprefixed_word
+	yield word
 
 def hyphenate(word):
 	if word[-1] in ['n','j']:
-		return hyphenate(word[:-1])+word[-1]
+		yield hyphenate(word[:-1])+word[-1]
 	if word[-1] in ['o','a','e','i']:
-		return hyphenate_unended(word[:-1])+word[-1]
-	return re.sub(r'^-','',hyphenate_unended(word))
+		for unended_word in hyphenate_unended(word[:-1]):
+			yield unended_word+word[-1]
+	word=re.sub(r'^-','',word)
+	return hyphenate_unended(word)
 
 def explain(hyphenated_word):
 	results=[]
@@ -58,9 +62,17 @@ def explain(hyphenated_word):
 		results[-1]='substantivo de '+explain(parts[-1][:-1])
 	elif parts[-1][-1]=='a':
 		results[-1]='adjektivo de '+explain(parts[-1][:-1])
+	elif parts[-1][-1]=='e':
+		results[-1]='adverbo de '+explain(parts[-1][:-1])
 	return '\n'.join(results)
 
 for word in argv[1:]:
-	hyphenated_word=hyphenate(word.lower().replace('gx','ĝ').replace('sx','ŝ').replace('cx','ĉ').replace('ux','ŭ').replace('jx','ĵ'))
-	print(hyphenated_word)
-	print('\t'+explain(hyphenated_word).replace('\n','\n\t'))
+	normalized_word=word.lower().replace('gx','ĝ').replace('sx','ŝ').replace('cx','ĉ').replace('ux','ŭ').replace('jx','ĵ')
+	print('La vorto "'+normalized_word+'" povus eksplikati tiel:')
+	interpretations=dict()
+	for hyphenation in hyphenate(normalized_word):
+		interpretations[hyphenation]=explain(hyphenation)
+	for hyphenation in interpretations:
+		print('\t'+hyphenation)
+		interpretation = interpretations[hyphenation]
+		print('\t\t'+interpretation.replace('\n','\n\t\t'))
