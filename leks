@@ -72,7 +72,11 @@ for word in argv[1:]:
 	interpretations=dict()
 	for hyphenation in hyphenate(normalized_word):
 		interpretations[hyphenation]=explain(hyphenation)
+	count=0
 	for hyphenation in interpretations:
 		print('\t'+hyphenation)
 		interpretation = interpretations[hyphenation]
 		print('\t\t'+interpretation.replace('\n','\n\t\t'))
+		count+=1
+		if count==2:
+			break

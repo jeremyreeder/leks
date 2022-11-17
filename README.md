@@ -7,6 +7,6 @@ the word is too complex to exist in a dictionary, Leks will break it down into
 its various parts (separating them with hyphens) and identify the role of each
 in the meaning of the word. All standard prefixes, suffixes, common roots, and
 grammatical word endings (excluding verb conjugations) are currently supported.
-The breakdown given by Leks is for just one plausible interpretation, the first
-one that Leks found. In cases of ambiguity, such as "ek-sendo" vs "eks-endo",
-the future intention is to list each possibility.
+There are certain ambiguous cases, such as where "eksendo" could be interpreted
+as "ek-sendo" or "eks-endo". The breakdowns given by Leks are the one or two
+which seem to make for the most plausible interpretations.
