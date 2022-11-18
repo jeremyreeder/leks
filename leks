@@ -17,15 +17,18 @@ def has_vowel(word):
 	return False
 
 def hyphenate_unended(word):
-	if len(word)>1 and word not in known_words:
-		for suffix in suffixes+roots:
-			if len(word)>len(suffix)+1 and word.endswith(suffix) and has_vowel(word[:-len(suffix)]):
-				for unended_word in hyphenate_unended(word[:-len(suffix)]):
-					yield unended_word+'-'+suffix
-		for prefix in prefixes+prepositions+roots:
-			if len(word)>len(prefix)+1 and word.startswith(prefix) and has_vowel(word[len(suffix)]):
-				for unprefixed_word in hyphenate_unended(word[len(prefix):]):
-					yield prefix+'-'+unprefixed_word
+	if len(word)>1:
+		if word not in known_words:
+			for suffix in suffixes+roots:
+				if len(word)>len(suffix)+1 and word.endswith(suffix) and has_vowel(word[:-len(suffix)]):
+					for unended_word in hyphenate_unended(word[:-len(suffix)]):
+						yield unended_word+'-'+suffix
+			for prefix in prefixes+prepositions+roots:
+				if len(word)>len(prefix)+1 and word.startswith(prefix) and has_vowel(word[len(prefix):]):
+					for unprefixed_word in hyphenate_unended(word[len(prefix):]):
+						yield prefix+'-'+unprefixed_word
+		if word[-1] in ['a','e','o'] and word[:-1] in known_words:
+			word=word[:-1]+word[-1].upper()
 	yield word
 
 def hyphenate(word):
@@ -43,29 +46,32 @@ def explain(hyphenated_word):
 	parts=hyphenated_word.split('-')
 	for part in parts:
 		result=''
-		if part in prefixes:
-			result+='prefikso "'+part+'"'
-		elif part in prepositions:
-			result+='prepozicio "'+part+'"'
-		elif part in suffixes:
-			result+='sufikso "'+part+'"'
-		elif part in roots:
-			result+='konata radiko "'+part+'"'
+		unended_part=part
+		for ending in ['N','J','O','A','E','I']:
+			unended_part=unended_part.replace(ending,'')
+		if unended_part in prefixes:
+			result+='prefikso "'+unended_part+'"'
+		elif unended_part in prepositions:
+			result+='prepozicio "'+unended_part+'"'
+		elif unended_part in suffixes:
+			result+='sufikso "'+unended_part+'"'
+		elif unended_part in roots:
+			result+='radiko "'+unended_part+'"'
 		else:
-			result+='nekonata radiko '+'"'+part+'"'
+			result+='nekonata radiko '+'"'+unended_part+'"'
+		if part[-1]=='N':
+			result='akuzativa '+explain(part[:-1])
+		elif part[-1]=='J':
+			result='multenombra '+explain(part[:-1])
+		elif part[-1]=='O':
+			result='substantivo de '+explain(part[:-1])
+		elif part[-1]=='A':
+			result='adjektivo de '+explain(part[:-1])
+		elif part[-1]=='E':
+			result='adverbo de '+explain(part[:-1])
+		elif part[-1]=='I':
+			result='verbo de '+explain(part[:-1])
 		results.append(result)
-	if parts[-1][-1]=='N':
-		results[-1]='akuzativa '+explain(parts[-1][:-1])
-	elif parts[-1][-1]=='J':
-		results[-1]='multenombra '+explain(parts[-1][:-1])
-	elif parts[-1][-1]=='O':
-		results[-1]='substantivo de '+explain(parts[-1][:-1])
-	elif parts[-1][-1]=='A':
-		results[-1]='adjektivo de '+explain(parts[-1][:-1])
-	elif parts[-1][-1]=='E':
-		results[-1]='adverbo de '+explain(parts[-1][:-1])
-	elif parts[-1][-1]=='I':
-		results[-1]='verbo de '+explain(parts[-1][:-1])
 	return '\n'.join(results)
 
 for word in argv[1:]:
@@ -76,14 +82,9 @@ for word in argv[1:]:
 		return match.group(1).upper()
 	enduppered_word=re.sub(r'(aj?n?|oj?n?|en?|i)$',upper_repl,normalized_word)
 	for hyphenation in hyphenate(enduppered_word):
-		interpretations[hyphenation.lower()]=explain(hyphenation)
-	count=0
+		explanation=explain(hyphenation)
+		if 'nekonata ' not in explanation:
+			interpretations[hyphenation.lower()]=explanation
 	for hyphenation in interpretations:
-		interpretation = interpretations[hyphenation]
-		count+=1
-		if count==2 and 'nekonata ' in interpretation:
-			break
 		print('\t'+hyphenation)
-		print('\t\t'+interpretation.replace('\n','\n\t\t'))
-		if count==2:
-			break
+		print('\t\t'+interpretations[hyphenation].replace('\n','\n\t\t'))
