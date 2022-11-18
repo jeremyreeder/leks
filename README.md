@@ -9,5 +9,3 @@ in the meaning of the word. All standard prefixes, suffixes, common roots, and
 grammatical word endings (excluding verb conjugations) are currently supported.
 There are certain ambiguous cases, such as where "eksendo" could be interpreted
 as "ek-sendo" or "eks-endo".
-
-TO DO: Prioritize reporting of the most plausible of ambiguous interpretations.

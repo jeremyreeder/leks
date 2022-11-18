@@ -74,7 +74,7 @@ def explain(hyphenated_word):
 		results.append(result)
 	return '\n'.join(results)
 
-for word in argv[1:]:
+for word in argv[1:2]:
 	normalized_word=word.lower().replace('gx','ĝ').replace('sx','ŝ').replace('cx','ĉ').replace('ux','ŭ').replace('jx','ĵ')
 	print('La vorto "'+normalized_word+'" povus eksplikati tiel:')
 	interpretations=dict()
@@ -85,6 +85,13 @@ for word in argv[1:]:
 		explanation=explain(hyphenation)
 		if 'nekonata ' not in explanation:
 			interpretations[hyphenation.lower()]=explanation
-	for hyphenation in interpretations:
+	prior_hyphenated_length=0
+	for hyphenation in sorted(interpretations,key=len):
+		if prior_hyphenated_length!=0 and len(hyphenation)>prior_hyphenated_length:
+			break
+		prior_hyphenated_length=len(hyphenation)
 		print('\t'+hyphenation)
 		print('\t\t'+interpretations[hyphenation].replace('\n','\n\t\t'))
+		exit(0)
+	print('Ju, mi ne komprenas tiun vorton.')
+	exit(1)
