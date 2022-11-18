@@ -19,7 +19,7 @@ def has_vowel(word):
 def hyphenate_unended(word):
 	if len(word)>1:
 		if word not in known_words:
-			for suffix in suffixes+roots:
+			for suffix in roots+suffixes:
 				if len(word)>len(suffix)+1 and word.endswith(suffix) and has_vowel(word[:-len(suffix)]):
 					for unended_word in hyphenate_unended(word[:-len(suffix)]):
 						yield unended_word+'-'+suffix
