@@ -9,6 +9,4 @@ in the meaning of the word. All standard prefixes, suffixes, common roots, and
 grammatical word endings (excluding verb conjugations) are currently supported.
 There are certain ambiguous cases, such as where "eksendo" could be interpreted
 as "ek-sendo" or "eks-endo". The breakdowns given by Leks are the one or two
-which seem to make for the most plausible interpretations. When a word ends
-with a series of several consecutive occurrences of grammatic word-ending
-characters A, E, O, J, and/or N, buggy parsing currently breaks the script.
+which seem to make for the most plausible interpretations.
