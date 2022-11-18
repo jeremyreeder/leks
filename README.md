@@ -8,5 +8,6 @@ its various parts (separating them with hyphens) and identify the role of each
 in the meaning of the word. All standard prefixes, suffixes, common roots, and
 grammatical word endings (excluding verb conjugations) are currently supported.
 There are certain ambiguous cases, such as where "eksendo" could be interpreted
-as "ek-sendo" or "eks-endo". The breakdowns given by Leks are the one or two
-which seem to make for the most plausible interpretations.
+as "ek-sendo" or "eks-endo".
+
+TO DO: Prioritize reporting of the most plausible of ambiguous interpretations.
