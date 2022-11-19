@@ -84,7 +84,7 @@ if len(argv)<2 or argv[1][0]=='-':
 	exit(1)
 for word in argv[1:2]:
 	if len(word)<5:
-		print('Demandu pri vorton pli malfacilan, stulteto.')
+		print('Demandu pri vorton pli malfacilan.')
 		exit(1)
 	normalized_word=word.lower().replace('gx','ĝ').replace('sx','ŝ').replace('cx','ĉ').replace('ux','ŭ').replace('jx','ĵ')
 	normalized_word=re.sub(r'(?=.{2,})[iaou]s$','i',normalized_word)
