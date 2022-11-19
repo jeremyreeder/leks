@@ -74,6 +74,9 @@ def explain(hyphenated_word):
 		results.append(result)
 	return '\n'.join(results)
 
+if len(argv)<2 or argv[1][0]=='-':
+	print('Donu al mi vorton, kaj mi ekspligos ĝin.')
+	exit(1)
 for word in argv[1:2]:
 	normalized_word=word.lower().replace('gx','ĝ').replace('sx','ŝ').replace('cx','ĉ').replace('ux','ŭ').replace('jx','ĵ')
 	normalized_word=re.sub(r'(?=.{2,})[iaou]s$','i',normalized_word)
