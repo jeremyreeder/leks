@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+
+# LEKS: Leksikona Esperanta Komandlinia Sercxilo
+# Copyright (C) 2022 Jeremy Reeder. Inspired by trouble with the word "vomodora".
+# https://github.com/jeremyreeder/leks
+
 from sys import argv
 import re
 
