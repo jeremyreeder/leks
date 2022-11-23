@@ -28,7 +28,7 @@ def hyphenate_unended(word):
 				if len(word)>len(suffix)+1 and word.endswith(suffix) and has_vowel(word[:-len(suffix)]):
 					for unended_word in hyphenate_unended(word[:-len(suffix)]):
 						yield unended_word+'-'+suffix
-			for prefix in prefixes+prepositions+roots:
+			for prefix in prefixes+prepositions+roots+suffixes:
 				if len(word)>len(prefix)+1 and word.startswith(prefix) and has_vowel(word[len(prefix):]):
 					for unprefixed_word in hyphenate_unended(word[len(prefix):]):
 						yield prefix+'-'+unprefixed_word
@@ -80,7 +80,7 @@ def explain(hyphenated_word):
 	return '\n'.join(results)
 
 if len(argv)<2 or argv[1][0]=='-':
-	print('Donu al mi vorton, kaj mi ekspligos ĝin.')
+	print('Donu al mi vorton, kaj mi eksplikos ĝin.')
 	exit(1)
 for word in argv[1:2]:
 	if len(word)<5:
