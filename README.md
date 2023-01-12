@@ -7,4 +7,8 @@ the word is too complex to exist in a dictionary, LEKS will break it down into
 its various parts (separating them with hyphens) and identify the role of each
 in the meaning of the word.
 
-Copyright (C) 2022 Jeremy Reeder. Inspired by trouble with the word "vomodora".
+Copyright (C) 2022 Jeremy Reeder.
+
+![][screenshot]
+
+[screenshot]: screenshot.jpg
